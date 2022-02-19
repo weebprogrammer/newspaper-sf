@@ -1,5 +1,4 @@
 from os import R_OK
-from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import DateTimeField
