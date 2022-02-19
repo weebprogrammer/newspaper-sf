@@ -14,6 +14,15 @@ class Author(models.Model):
 
     def updateRating(self):
         postRat = self.post_set.all().aggregate(postrating=Sum('rating'))
+        pRat = 0
+        pRat += postRat.get('postRating')
+
+        commemtRat = self.authorUser.comment_set_all().aggregate(commentRating=Sum('rating'))
+        cRat = 0
+        cRat += commemtRat.get('commentRating')
+
+        self.ratingAuthor = pRat * 3 + cRat
+        self.save()
 
 
 class Category(models.Model):
