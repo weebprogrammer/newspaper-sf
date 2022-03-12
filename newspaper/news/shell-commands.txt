@@ -1,0 +1,51 @@
+user1 = User.objects.create(username='Oleg', first_name='Tinkov')
+user2 = User.objects.create(username='Amir', first_name='Tagashov')
+
+Author.objects.create(authorUser=user1)
+Author.objects.create(authorUser=user2)
+
+Category.objects.create(name='Games')
+Category.objects.create(name='Music')
+Category.objects.create(name='Politics')
+Category.objects.create(name='Hi-Tech')
+
+Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Amir')), categoryType='NW', title='music and games', text='bla bla bla')
+Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Oleg')), categoryType='AR', title='America vs USSR cold war', text='we need more tanks and oil!')
+Post.objects.create(author=Author.objects.get(authorUser=User.objects.get(username='Amir')), categoryType='AR', title='Computer Science in humans life', text='people change but computers never get old')
+
+p1 = Post.objects.get(pk=1)
+p2 = Post.objects.get(pk=2)
+p3 = Post.objects.get(pk=3)
+
+c1 = Category.objects.get(pk=1)
+c2 = Category.objects.get(pk=2)
+c3 = Category.objects.get(pk=3)
+
+p1.postCategory.add(c1)
+p2.postCategory.add(c2)
+p3.postCategory.add(c3)
+
+Comment.objects.create(commentUser=User.objects.get(username='Amir'), commentPost=Post.objects.get(pk=1), text='some text comment')
+Comment.objects.create(commentUser=User.objects.get(username='Oleg'), commentPost=Post.objects.get(pk=2), text='comment for 2 post')
+Comment.objects.create(commentUser=User.objects.get(username='Oleg'), commentPost=Post.objects.get(pk=3), text='comment for 3 post')
+Comment.objects.create(commentUser=User.objects.get(username='Amir'), commentPost=Post.objects.get(pk=2), text='another comment for 2 post')
+
+p1.like()
+p1.dislike()
+p2.like()
+p2.dislike()
+
+Author.objects.get(authorUser=User.objects.get(username='Amir')).update_rating()
+Author.objects.get(authorUser=User.objects.get(username='Oleg')).update_rating()
+
+a1 = Author.objects.get(authorUser=User.objects.get(username='Oleg'))
+a2 = Author.objects.get(authorUser=User.objects.get(username='Amir'))
+
+a1.authorRating
+a2.authorRating
+
+best = Author.objects.all().order_by('-ratingAuthor').values('authorUser', 'ratingAuthor')[0]
+bestPost = Post.objects.all().order_by('-rating').values('author', 'title')[0]
+bestComment = Comment.objects.all().order_by('-rating').values('commentUser', 'commentPost')[0]
+
+
