@@ -4,19 +4,18 @@ from django.contrib.auth.models import User
 from django.db.models import DateTimeField
 from django.db.models import Sum 
 
-# Create your models here.
 
 
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
     ratingAuthor = models.SmallIntegerField(default=0)
 
-    def updateRating(self):
-        postRat = self.post_set.all().aggregate(postrating=Sum('rating'))
+    def update_rating(self):
+        postRat = self.post_set.all().aggregate(postRating=Sum('rating'))
         pRat = 0
         pRat += postRat.get('postRating')
 
-        commemtRat = self.authorUser.comment_set_all().aggregate(commentRating=Sum('rating'))
+        commemtRat = self.authorUser.comment_set.all().aggregate(commentRating=Sum('rating'))
         cRat = 0
         cRat += commemtRat.get('commentRating')
 
@@ -36,7 +35,7 @@ class Post(models.Model):
         (NEWS, 'новость'),
         (ARTICLE, 'статья'),
     )
-    categorType = models.CharField(max_length=2, choices=CATEGORY_CHOISES, default=ARTICLE)
+    categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOISES, default=ARTICLE)
     dateCreation = DateTimeField(auto_now_add=True)
     postCategory = models.ManyToManyField(Category, through='postCategory')
     title = models.CharField(max_length=128)
@@ -80,3 +79,6 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+
+
