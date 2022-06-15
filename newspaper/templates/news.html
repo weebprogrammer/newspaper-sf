@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+ 
+
+{% block content %}
+    <h1>Все новости</h1>
+    <hr>
+    {% if news %} <!-- Если есть товары, то выводим таблицу с ними -->
+        {% for post in news %}
+        <h2>{{ post.title }}</h2>
+        {{ post.dateCreation|date:'M d Y' }}<br>
+        {{ post.text|truncatechars:50 }}
+        {% endfor %}
+    {% else %}
+        <h2>новостей нет!</h2>
+    {% endif %}
+{% endblock content %}
