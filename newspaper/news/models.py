@@ -23,6 +23,12 @@ class Author(models.Model):
         self.save()
 
 
+    def __str__(self):
+        return str(self.authorUser)
+
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
+
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
