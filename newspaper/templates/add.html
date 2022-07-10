@@ -1,0 +1,23 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %} 
+    {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+    <input type="submit" value="Добавить новость">
+</form>
+
+    <h1>Все новости</h1>
+    <hr>
+    {% if news %} 
+        {% for post in news %}
+        <h2>{{ post.title }}</h2>
+        {{ post.dateCreation|date:'M d Y' }}<br>
+        {{ post.text|truncatechars:50 }}
+        {% endfor %}
+    {% else %}
+        <h2>новостей нет!</h2>
+    {% endif %}
+{% endblock content %}
